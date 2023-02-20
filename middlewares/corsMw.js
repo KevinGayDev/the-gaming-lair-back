@@ -9,6 +9,10 @@ function cors (req, res, next)
       "Access-Control-Allow-Headers",
       "Content-Type, Authorization, Origin, X-Requested-With, Accept"
     );
+    if(req.method === "OPTIONS") 
+    {
+      return res.sendStatus(200);
+    }
     next();
   }
   

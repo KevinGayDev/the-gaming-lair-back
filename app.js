@@ -2,7 +2,10 @@ var express = require('express');
 var logger = require('morgan');
 
 const mwCORS = require('./middlewares/corsMw');
-var connectRoute = require("./routes/connectRoute");
+
+const connectRoute = require("./routes/connectRoute");
+const gamesRoute = require("./routes/gamesRoute");
+const profileRoute = require("./routes/profileRoute");
 
 var app = express();
 
@@ -12,7 +15,8 @@ app.use(logger('dev'));
 app.use(express.json());
 
 app.use(mwCORS);
-
 app.use(connectRoute);
+app.use(gamesRoute);
+app.use(profileRoute);
 
 module.exports = app;

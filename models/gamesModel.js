@@ -6,12 +6,12 @@ const gamesSchema = new mongoose.Schema(
         name: String,
         genre: String,
         developper: String,
-        slug: {type: String, unique: true, index: true}, //nom du jeu formatté
-        editor: String,
-        consoles: [String], 
+        slug: String, //nom du jeu formatté
+        consoles: String, 
         rating: String,
-        releaseDate: Date,
+        releaseDate: String,
         description: String,
+        addedDate: String,
         likes: [{userId:Number}],
         comments:[{
             commenterName: String,
