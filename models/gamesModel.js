@@ -12,7 +12,7 @@ const gamesSchema = new mongoose.Schema(
         releaseDate: String,
         description: String,
         addedDate: String,
-        likes: [{userId:Number}],
+        likes: [{userId:String}],
         comments:[{
             commenterName: String,
             commenterPost: String

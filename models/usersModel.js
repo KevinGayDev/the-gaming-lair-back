@@ -9,7 +9,7 @@ const usersSchema = new mongoose.Schema(
         bestGamePlayed: String,
         worstGamePlayed: String,
         siteRole: String, //de base, simple utilisateur
-        signDate: Date
+        signDate: String
     }
 )
 

@@ -6,6 +6,11 @@ const mailRegExp = new RegExp("^[a-zA-Z0-9_!#$%&amp;'*+/=?`{|}~^-]+(?:\\.[a-zA-Z
 const passwordRegExp = new RegExp("^(.*[a-zA-Z0-9!@#$%^&*]){1,16}$");
 const secretKey = "th3g4m1ngl41rs3cr3tk3y";
 
+const dateFormatting = Intl.DateTimeFormat("fr-FR", {
+    dateStyle: "short",
+    timeStyle: "long"
+  });
+
 const connectCtrl =
 {
     // Method for users to sign up to the site
@@ -13,12 +18,17 @@ const connectCtrl =
     {
         const {pseudo, mail, password} = req.body;
 
+        console.log(req.body);
+        console.log(typeof(pseudo));
+        console.log(typeof(mail));
+        console.log(typeof(password));
+
         // Check to see if there are error errors
-        if ((typeof(pseudo) && typeof(mail) && typeof(password)) !== "string")
+        if (typeof(pseudo) !== "string" || typeof(mail) !== "string" || typeof(password) !== "string")
         {
             return res.status(422).json({message: "Un ou plusieurs champs ne sont pas du bon type"})
         }
-        if ((pseudo || mail || password) === "")
+        if (pseudo  === "" || mail  === "" || password === "")
         {
             return res.status(422).json({message: "Un ou plusieurs champs sont vides"})
         }
@@ -45,6 +55,8 @@ const connectCtrl =
             return hash;
         })
         
+        let date = new Date();
+        const dateFormat = dateFormatting.format(date);
         // Create a new user based on the datas sent and save to the database
         let newUser=new usersMDL(
         {
@@ -55,24 +67,18 @@ const connectCtrl =
             mostRecentGamePlayed: "",
             bestGamePlayed: "",
             worstGamePlayed: "",
-            signDate: new Date(),
+            signDate: dateFormat
         });
         newUser.save((err) => 
         {
             if (err)
             {
-                if (pseudo === err.keyValue.pseudo)
-                {
-                    return res.status(422).json({message:"Un compte ayant ce pseudo est déjà présent"});
-                }
-                if (mail === err.keyValue.mail)
-                {
-                    return res.status(422).json({message:"Un compte ayant ce mail est déjà présent"});
-                }
+                console.log(err);
+                return res.status(422).json({message:"L'adresse mail ou le pseudo demandé existe déjà"});        
             }
             else 
             {
-                res.status(201).json({message: "Compte crée"});
+                return res.status(201).json({message: "Compte crée"});
             }
         });
     },
